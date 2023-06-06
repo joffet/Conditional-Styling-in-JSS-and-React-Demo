@@ -2,6 +2,8 @@ import React from "react";
 import { createUseStyles } from "react-jss";
 
 type StyleProps = {
+  colors: string[];
+  getRandomIndex: Function;
   getRandomColor: Function;
 };
 
@@ -19,7 +21,7 @@ const styles = createUseStyles({
     },
   },
   buttonStyle: (props: StyleProps) => ({
-    backgroundColor: props.getRandomColor(),
+    backgroundColor: props.getRandomColor(props.getRandomIndex(props.colors)),
     margin: 20,
     padding: 20,
     width: "20%",
@@ -36,14 +38,19 @@ const styles = createUseStyles({
 
 const App = () => {
   const buttonList: string[] = ["App", "Passes", "Function"];
+  const colors: string[] = ["blue", "green", "red"];
 
-  const getRandomColor = () => {
-    const colors = ["blue", "green", "red"];
-    const index = Math.floor(Math.random() * colors.length);
+  const getRandomIndex = (colors: string[]) => {
+    return Math.floor(Math.random() * colors.length);
+  };
+
+  const getRandomColor = (index: number) => {
     return colors[index];
   };
 
   const { containerStyle, buttonStyle, labelStyle } = styles({
+    colors,
+    getRandomIndex,
     getRandomColor,
   });
 
